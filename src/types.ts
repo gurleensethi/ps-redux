@@ -5,7 +5,7 @@ import { Action } from "redux";
 export interface Course {
   id: string;
   title: string;
-  authorId: number;
+  authorId: string;
 }
 
 export type CreateCourseData = Omit<Course, "id">;
@@ -23,3 +23,10 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+export interface Loadable<T> {
+  isLoading: boolean;
+  data?: T;
+  success: boolean;
+  message?: string;
+}
