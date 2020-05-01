@@ -54,10 +54,11 @@ export const loadCourseSuccess = (
   };
 };
 
-export const loadCourse = (id: string): AppThunk => {
+export const loadCourse = (id: string): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
-    return api
-      .getCourse(id)
-      .then((course) => dispatch(loadCourseSuccess(course)));
+    dispatch(loadCourseSuccess(undefined));
+    return api.getCourse(id).then((course) => {
+      dispatch(loadCourseSuccess(course));
+    });
   };
 };

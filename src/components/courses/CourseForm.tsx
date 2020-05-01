@@ -2,7 +2,9 @@ import React, { FunctionComponent } from "react";
 import { CourseFormFields, CourseFormErrors, Author } from "src/types";
 
 interface OwnProps {
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   fields: CourseFormFields;
   errors: CourseFormErrors;
@@ -29,7 +31,7 @@ const CourseForm: FunctionComponent<OwnProps> = ({
       </div>
       <div>
         <div>Author</div>
-        <select value={authorId} name="authorId">
+        <select value={authorId} name="authorId" onChange={onChange}>
           <option value="">Select an author</option>
           {authors.map((author) => (
             <option key={author.id} value={author.id}>

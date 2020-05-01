@@ -1,7 +1,14 @@
 import { Course, CreateCourseData, Author } from "./types";
 
-const courses: Course[] = JSON.parse(localStorage.getItem("courses") || "[]");
-const authors: Author[] = JSON.parse(localStorage.getItem("authors") || "[]");
+const courses: Course[] = JSON.parse(
+  localStorage.getItem("courses") ||
+    JSON.stringify([{ id: "1", title: "Redux 101", authorId: "1" }])
+);
+
+const authors: Author[] = JSON.parse(
+  localStorage.getItem("authors") ||
+    JSON.stringify([{ id: "1", name: "John Doe" }])
+);
 
 const delayed = <T>(data: (() => T) | T, timeDelay: number): Promise<T> => {
   const isFunction = (obj: any): obj is () => T => {
@@ -21,7 +28,10 @@ const delayed = <T>(data: (() => T) | T, timeDelay: number): Promise<T> => {
 
 export default {
   getCourses: async (): Promise<Course[]> => {
-    return delayed(courses, 500);
+    return delayed(
+      courses.map((course) => course),
+      500
+    );
   },
   createCourse: async (createCourseData: CreateCourseData): Promise<Course> => {
     const course: Course = {
@@ -31,6 +41,7 @@ export default {
       )}`,
     };
     return delayed<Course>(() => {
+      courses.push(course);
       return course;
     }, 500);
   },
@@ -41,6 +52,9 @@ export default {
     );
   },
   getAuthors: async (): Promise<Author[]> => {
-    return delayed(authors, 500);
+    return delayed(
+      authors.map((author) => author),
+      500
+    );
   },
 };
