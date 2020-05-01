@@ -2,15 +2,24 @@ import {
   CreateCourseAction,
   CourseActionType,
   LoadCoursesSuccessAction,
+  LoadCourseAction,
 } from "./courses-types";
-import { Course, AppThunk } from "src/types";
+import { Course, AppThunk, CreateCourseData } from "src/types";
 import { Dispatch } from "redux";
 import api from "src/api";
 
-export const createCourse = (course: Course): CreateCourseAction => {
+export const createCourseSuccess = (course: Course): CreateCourseAction => {
   return {
     course,
     type: CourseActionType.CreateCourse,
+  };
+};
+
+export const createCourse = (createCourseData: CreateCourseData): AppThunk => {
+  return (dispatch: Dispatch) => {
+    api
+      .createCourse(createCourseData)
+      .then((course) => dispatch(createCourseSuccess(course)));
   };
 };
 
@@ -33,5 +42,22 @@ export const loadCourses = (): AppThunk => {
       .catch((error) => {
         throw error;
       });
+  };
+};
+
+export const loadCourseSuccess = (
+  course: Course | undefined
+): LoadCourseAction => {
+  return {
+    type: CourseActionType.LoadCourse,
+    course,
+  };
+};
+
+export const loadCourse = (id: string): AppThunk => {
+  return (dispatch: Dispatch) => {
+    return api
+      .getCourse(id)
+      .then((course) => dispatch(loadCourseSuccess(course)));
   };
 };

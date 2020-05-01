@@ -7,6 +7,7 @@ import NotFoundPage from "./components/not-found/NotFoundPage";
 import store from "./data/store";
 import { Provider as ReduxProvider } from "react-redux";
 import CoursesContainer from "./components/courses/CoursesContainer";
+import ManageCoursePage from "./components/courses/ManageCoursePage";
 
 const App: FunctionComponent = (props) => {
   return (
@@ -17,6 +18,8 @@ const App: FunctionComponent = (props) => {
           <Route exact path="/" component={HomePage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/courses" component={CoursesContainer} />
+          <Route path="/course/:courseId" component={ManageCoursePage} />
+          <Route path="/course" component={ManageCoursePage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Router>

@@ -26,12 +26,19 @@ export default {
   createCourse: async (createCourseData: CreateCourseData): Promise<Course> => {
     const course: Course = {
       ...createCourseData,
-      id: `${Date.now()}${Math.random()}${Math.random()}`,
+      id: `${Date.now()}${Math.floor(Math.random() * 100)}${Math.floor(
+        Math.random() * 100
+      )}`,
     };
     return delayed<Course>(() => {
-      courses.push(course);
       return course;
     }, 500);
+  },
+  getCourse: async (id: string): Promise<Course | undefined> => {
+    return delayed(
+      courses.find((course) => course.id === id),
+      500
+    );
   },
   getAuthors: async (): Promise<Author[]> => {
     return delayed(authors, 500);

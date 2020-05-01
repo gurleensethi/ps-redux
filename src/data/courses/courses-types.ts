@@ -4,6 +4,7 @@ export enum CourseActionType {
   CreateCourse = "CREATE_COURSE",
   DeleteCourse = "DELETE_COURSE",
   UpdateCourse = "UPDATE_COURSE",
+  LoadCourse = "LOAD_COURSE",
   LoadCoursesSuccess = "LOAD_COURSES_SUCCESS",
 }
 
@@ -27,12 +28,18 @@ export interface LoadCoursesSuccessAction {
   courses: Course[];
 }
 
+export interface LoadCourseAction {
+  type: CourseActionType.LoadCourse;
+  course: Course | undefined;
+}
+
 export type CoursesAction =
   | CreateCourseAction
   | DeleteCourseAction
   | UpdateCourseAction
-  | LoadCoursesSuccessAction;
+  | LoadCoursesSuccessAction
+  | LoadCourseAction;
 
-export type CoursesState = Course[];
+export type CoursesState = { courses: Course[]; course: Course | undefined };
 
 export type AuthorState = Author[];

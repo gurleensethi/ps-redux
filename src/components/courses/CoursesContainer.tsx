@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { RootState, Course } from "src/types";
+import { RootState, CreateCourseData } from "src/types";
 import { createCourse, loadCourses } from "src/data/courses/courses-actions";
 import { bindActionCreators, Dispatch } from "redux";
 import CourseList from "./CourseList";
@@ -9,7 +9,7 @@ import { loadAuthors } from "src/data/author/author-actions";
 interface OwnProps {}
 
 const mapStateToProps = (state: RootState) => ({
-  courses: state.courses.map((course) => {
+  courses: state.courses.courses.map((course) => {
     return {
       ...course,
       author: state.authors.find((author) => author.id === course.authorId),
@@ -24,18 +24,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type Props = PropsFromRedux & OwnProps;
+
+type Props = ConnectedProps<typeof connector> & OwnProps;
 
 type CourseFields = {
-  [key in keyof Course]: string;
+  [key in keyof CreateCourseData]: string;
 };
 
 const CoursesPage: FunctionComponent<Props> = (props) => {
   const [fields, setFields] = React.useState<CourseFields>({
     title: "",
     authorId: "",
-    id: "",
   });
 
   const { loadCourses, loadAuthors } = props;
@@ -53,7 +52,7 @@ const CoursesPage: FunctionComponent<Props> = (props) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     props.createCourse({ ...fields, authorId: fields.authorId });
-    setFields({ title: "", authorId: "", id: "" });
+    setFields({ title: "", authorId: "" });
   };
 
   const { title } = fields;
