@@ -1,8 +1,6 @@
 import {
   createStore,
   applyMiddleware,
-  Store,
-  Action,
   Dispatch,
   Middleware,
   MiddlewareAPI,

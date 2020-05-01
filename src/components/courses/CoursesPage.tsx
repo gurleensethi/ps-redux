@@ -2,13 +2,14 @@ import React, { FunctionComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "src/types";
 import { createCourse } from "src/data/courses/courses-actions";
+import { bindActionCreators, Dispatch } from "redux";
 
 interface OwnProps {}
 const mapStateToProps = (state: RootState) => ({
   courses: state.courses,
 });
-const mapDispatchToProps = {
-  createCourse,
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return { ...bindActionCreators({ createCourse }, dispatch) };
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
@@ -45,4 +46,5 @@ const CoursesPage: FunctionComponent<Props> = (props) => {
     </form>
   );
 };
+
 export default connector(CoursesPage);

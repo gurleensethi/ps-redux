@@ -1,21 +1,23 @@
 import { Course } from "../../types";
 
-export const CREATE_COURSE = "CREATE_COURSE";
-export const UPDATE_COURSE = "UPDATE_COURSE";
-export const DELETE_COURSE = "DELETE_COURSE";
+export enum CourseActions {
+  CreateCourse = "CREATE_COURSE",
+  DeleteCourse = "DELETE_COURSE",
+  UpdateCourse = "UPDATE_COURSE",
+}
 
 export interface CreateCourseAction {
-  type: typeof CREATE_COURSE;
+  type: CourseActions.CreateCourse;
   course: Course;
 }
 
 export interface UpdateCourseAction {
-  type: typeof UPDATE_COURSE;
+  type: CourseActions.UpdateCourse;
   course: Course;
 }
 
 export interface DeleteCourseAction {
-  type: typeof DELETE_COURSE;
+  type: CourseActions.DeleteCourse;
   course: Course;
 }
 
