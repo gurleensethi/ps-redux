@@ -6,11 +6,11 @@ import Header from "./components/common/Header";
 import NotFoundPage from "./components/not-found/NotFoundPage";
 import CoursesPage from "./components/courses/CoursesPage";
 import store from "./data/store";
-import { Provider } from "react-redux";
+import { Provider as ReduxProvider } from "react-redux";
 
 const App: FunctionComponent = (props) => {
   return (
-    <Provider store={store}>
+    <ReduxProvider store={store}>
       <Router>
         <Header />
         <Switch>
@@ -20,7 +20,7 @@ const App: FunctionComponent = (props) => {
           <Route component={NotFoundPage} />
         </Switch>
       </Router>
-    </Provider>
+    </ReduxProvider>
   );
 };
 
