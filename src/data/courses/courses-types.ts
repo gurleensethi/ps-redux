@@ -1,29 +1,38 @@
-import { Course } from "../../types";
+import { Course, Author } from "../../types";
 
-export enum CourseActions {
+export enum CourseActionType {
   CreateCourse = "CREATE_COURSE",
   DeleteCourse = "DELETE_COURSE",
   UpdateCourse = "UPDATE_COURSE",
+  LoadCoursesSuccess = "LOAD_COURSES_SUCCESS",
 }
 
 export interface CreateCourseAction {
-  type: CourseActions.CreateCourse;
+  type: CourseActionType.CreateCourse;
   course: Course;
 }
 
 export interface UpdateCourseAction {
-  type: CourseActions.UpdateCourse;
+  type: CourseActionType.UpdateCourse;
   course: Course;
 }
 
 export interface DeleteCourseAction {
-  type: CourseActions.DeleteCourse;
+  type: CourseActionType.DeleteCourse;
   course: Course;
+}
+
+export interface LoadCoursesSuccessAction {
+  type: CourseActionType.LoadCoursesSuccess;
+  courses: Course[];
 }
 
 export type CoursesAction =
   | CreateCourseAction
   | DeleteCourseAction
-  | UpdateCourseAction;
+  | UpdateCourseAction
+  | LoadCoursesSuccessAction;
 
 export type CoursesState = Course[];
+
+export type AuthorState = Author[];

@@ -1,4 +1,4 @@
-import { CoursesAction, CoursesState, CourseActions } from "./courses-types";
+import { CoursesAction, CoursesState, CourseActionType } from "./courses-types";
 
 const initialState: CoursesState = [];
 
@@ -7,7 +7,10 @@ export const coursesReducer = (
   action: CoursesAction
 ): CoursesState => {
   switch (action.type) {
-    case CourseActions.CreateCourse: {
+    case CourseActionType.LoadCoursesSuccess: {
+      return action.courses;
+    }
+    case CourseActionType.CreateCourse: {
       return [...state, { ...action.course }];
     }
     default:

@@ -1,26 +1,37 @@
 import React, { FunctionComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { RootState } from "src/types";
-import { createCourse } from "src/data/courses/courses-actions";
+import { RootState, Course } from "src/types";
+import { createCourse, loadCourses } from "src/data/courses/courses-actions";
 import { bindActionCreators, Dispatch } from "redux";
+import CourseList from "./CourseList";
 
 interface OwnProps {}
 const mapStateToProps = (state: RootState) => ({
   courses: state.courses,
 });
 const mapDispatchToProps = (dispatch: Dispatch) => {
-  return { ...bindActionCreators({ createCourse }, dispatch) };
+  return { ...bindActionCreators({ createCourse, loadCourses }, dispatch) };
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & OwnProps;
 
-interface CourseFields {
-  title: "";
-}
+type CourseFields = {
+  [key in keyof Course]: string;
+};
 
 const CoursesPage: FunctionComponent<Props> = (props) => {
-  const [fields, setFields] = React.useState<CourseFields>({ title: "" });
+  const [fields, setFields] = React.useState<CourseFields>({
+    title: "",
+    authorId: "",
+    id: "",
+  });
+
+  const { loadCourses } = props;
+
+  React.useEffect(() => {
+    loadCourses();
+  }, [loadCourses]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -29,8 +40,8 @@ const CoursesPage: FunctionComponent<Props> = (props) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.createCourse({ ...fields });
-    setFields({ title: "" });
+    props.createCourse({ ...fields, authorId: Number(fields.authorId) });
+    setFields({ title: "", authorId: "", id: "" });
   };
 
   const { title } = fields;
@@ -40,9 +51,7 @@ const CoursesPage: FunctionComponent<Props> = (props) => {
       <h2>Courses</h2>
       <h3>Add Course</h3>
       <input type="text" value={title} onChange={handleChange} name="title" />
-      {props.courses.map((course, index) => (
-        <div key={index}>{course.title}</div>
-      ))}
+      <CourseList courses={props.courses} />
     </form>
   );
 };

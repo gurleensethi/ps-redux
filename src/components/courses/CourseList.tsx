@@ -5,11 +5,9 @@ interface Props {
   courses: Course[];
 }
 
-const CoursesPage: FunctionComponent<Props> = (props) => {
+const CourseList: FunctionComponent<Props> = (props) => {
   return (
     <div>
-      <h2>Courses</h2>
-      <h3>Add Course</h3>
       {props.courses.map((course, index) => (
         <div key={index}>{course.title}</div>
       ))}
@@ -17,4 +15,4 @@ const CoursesPage: FunctionComponent<Props> = (props) => {
   );
 };
 
-export default CoursesPage;
+export default CourseList;
