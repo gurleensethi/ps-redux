@@ -5,6 +5,7 @@ import { createCourse, loadCourses } from "src/data/courses/courses-actions";
 import { bindActionCreators, Dispatch } from "redux";
 import CourseList from "./CourseList";
 import { loadAuthors } from "src/data/author/author-actions";
+import { RouteComponentProps } from "react-router-dom";
 
 interface OwnProps {}
 
@@ -25,18 +26,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type Props = ConnectedProps<typeof connector> & OwnProps;
-
-type CourseFields = {
-  [key in keyof CreateCourseData]: string;
-};
+type Props = ConnectedProps<typeof connector> & OwnProps & RouteComponentProps;
 
 const CoursesPage: FunctionComponent<Props> = (props) => {
-  const [fields, setFields] = React.useState<CourseFields>({
-    title: "",
-    authorId: "",
-  });
-
   const { loadCourses, loadAuthors } = props;
 
   React.useEffect(() => {
@@ -44,26 +36,16 @@ const CoursesPage: FunctionComponent<Props> = (props) => {
     loadAuthors();
   }, [loadCourses, loadAuthors]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFields({ ...fields, [name]: value });
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    props.createCourse({ ...fields, authorId: fields.authorId });
-    setFields({ title: "", authorId: "" });
-  };
-
-  const { title } = fields;
-
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Courses</h2>
-      <h3>Add Course</h3>
-      <input type="text" value={title} onChange={handleChange} name="title" />
+    <div>
+      <h2>
+        Courses{" "}
+        <button onClick={() => props.history.push("/course")}>
+          Add Course
+        </button>
+      </h2>
       <CourseList courses={props.courses} />
-    </form>
+    </div>
   );
 };
 
