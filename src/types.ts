@@ -9,6 +9,7 @@ export interface Course {
 }
 
 export type CreateCourseData = Omit<Course, "id">;
+export type UpdateCourseData = Omit<Course, "id">;
 
 export type CourseFormFields = Omit<Course, "id">;
 export type CourseFormErrors = { [key in keyof CourseFormFields]?: string };

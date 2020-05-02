@@ -16,6 +16,17 @@ export const coursesReducer = (
     case CourseActionType.LoadCourse: {
       return { ...state, course: action.course };
     }
+    case CourseActionType.UpdateCourse: {
+      return {
+        ...state,
+        courses: state.courses.map((course) => {
+          if (course.id === action.id) {
+            return action.course;
+          }
+          return course;
+        }),
+      };
+    }
     default:
       return state;
   }

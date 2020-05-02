@@ -16,6 +16,7 @@ export interface CreateCourseAction {
 export interface UpdateCourseAction {
   type: CourseActionType.UpdateCourse;
   course: Course;
+  id: string;
 }
 
 export interface DeleteCourseAction {

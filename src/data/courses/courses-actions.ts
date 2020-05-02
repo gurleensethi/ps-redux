@@ -3,8 +3,14 @@ import {
   CourseActionType,
   LoadCoursesSuccessAction,
   LoadCourseAction,
+  UpdateCourseAction,
 } from "./courses-types";
-import { Course, AppThunk, CreateCourseData } from "src/types";
+import {
+  Course,
+  AppThunk,
+  CreateCourseData,
+  UpdateCourseData,
+} from "src/types";
 import { Dispatch } from "redux";
 import api from "src/api";
 
@@ -15,11 +21,13 @@ export const createCourseSuccess = (course: Course): CreateCourseAction => {
   };
 };
 
-export const createCourse = (createCourseData: CreateCourseData): AppThunk => {
+export const createCourse = (
+  createCourseData: CreateCourseData
+): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
-    api
-      .createCourse(createCourseData)
-      .then((course) => dispatch(createCourseSuccess(course)));
+    return api.createCourse(createCourseData).then((course) => {
+      dispatch(createCourseSuccess(course));
+    });
   };
 };
 
@@ -59,6 +67,30 @@ export const loadCourse = (id: string): AppThunk<Promise<void>> => {
     dispatch(loadCourseSuccess(undefined));
     return api.getCourse(id).then((course) => {
       dispatch(loadCourseSuccess(course));
+    });
+  };
+};
+
+export const updateCourseSuccess = (
+  id: string,
+  course: Course
+): UpdateCourseAction => {
+  return {
+    id,
+    course,
+    type: CourseActionType.UpdateCourse,
+  };
+};
+
+export const updateCourse = (
+  id: string,
+  updateCourseData: UpdateCourseData
+): AppThunk<Promise<void>> => {
+  return (dispatch: Dispatch) => {
+    return api.updateCourse(id, updateCourseData).then((updateCourse) => {
+      if (updateCourse) {
+        dispatch(updateCourseSuccess(id, updateCourse));
+      }
     });
   };
 };

@@ -1,4 +1,4 @@
-import { Course, CreateCourseData, Author } from "./types";
+import { Course, CreateCourseData, Author, UpdateCourseData } from "./types";
 
 const courses: Course[] = JSON.parse(
   localStorage.getItem("courses") ||
@@ -43,6 +43,19 @@ export default {
     return delayed<Course>(() => {
       courses.push(course);
       return course;
+    }, 500);
+  },
+  updateCourse: async (
+    id: string,
+    updateCourseData: UpdateCourseData
+  ): Promise<Course | undefined> => {
+    return delayed(() => {
+      const index = courses.findIndex((course) => course.id === id);
+      if (index >= 0) {
+        courses[index] = { ...courses[index], ...updateCourseData };
+        return courses[index];
+      }
+      return undefined;
     }, 500);
   },
   getCourse: async (id: string): Promise<Course | undefined> => {
