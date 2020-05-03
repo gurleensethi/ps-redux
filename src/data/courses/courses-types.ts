@@ -21,7 +21,7 @@ export interface UpdateCourseAction {
 
 export interface DeleteCourseAction {
   type: CourseActionType.DeleteCourse;
-  course: Course;
+  id: string;
 }
 
 export interface LoadCoursesSuccessAction {

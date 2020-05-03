@@ -4,15 +4,17 @@ import { Link } from "react-router-dom";
 
 interface Props {
   courses: Course[];
+  onDelete: (course: Course) => void;
 }
 
-const CourseList: FunctionComponent<Props> = (props) => {
+const CourseList: FunctionComponent<Props> = ({ courses, onDelete }) => {
   return (
     <div>
-      {props.courses.map((course) => (
-        <Link to={`/course/${course.id}`} key={course.id}>
-          <div>{course.title}</div>
-        </Link>
+      {courses.map((course) => (
+        <div key={course.id}>
+          <Link to={`/course/${course.id}`}>{course.title} </Link>
+          <button onClick={() => onDelete(course)}>Delete</button>
+        </div>
       ))}
     </div>
   );

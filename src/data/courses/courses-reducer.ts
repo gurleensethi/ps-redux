@@ -7,16 +7,13 @@ export const coursesReducer = (
   action: CoursesAction
 ): CoursesState => {
   switch (action.type) {
-    case CourseActionType.LoadCoursesSuccess: {
+    case CourseActionType.LoadCoursesSuccess:
       return { ...state, courses: action.courses };
-    }
-    case CourseActionType.CreateCourse: {
+    case CourseActionType.CreateCourse:
       return { ...state, courses: [...state.courses, action.course] };
-    }
-    case CourseActionType.LoadCourse: {
+    case CourseActionType.LoadCourse:
       return { ...state, course: action.course };
-    }
-    case CourseActionType.UpdateCourse: {
+    case CourseActionType.UpdateCourse:
       return {
         ...state,
         courses: state.courses.map((course) => {
@@ -26,7 +23,11 @@ export const coursesReducer = (
           return course;
         }),
       };
-    }
+    case CourseActionType.DeleteCourse:
+      return {
+        ...state,
+        courses: state.courses.filter((course) => course.id !== action.id),
+      };
     default:
       return state;
   }

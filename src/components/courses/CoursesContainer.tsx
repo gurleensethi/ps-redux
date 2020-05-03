@@ -1,7 +1,11 @@
 import React, { FunctionComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "src/types";
-import { createCourse, loadCourses } from "src/data/courses/courses-actions";
+import {
+  createCourse,
+  loadCourses,
+  deleteCourse,
+} from "src/data/courses/courses-actions";
 import { bindActionCreators, Dispatch } from "redux";
 import CourseList from "./CourseList";
 import { loadAuthors } from "src/data/author/author-actions";
@@ -20,7 +24,10 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    ...bindActionCreators({ createCourse, loadCourses, loadAuthors }, dispatch),
+    ...bindActionCreators(
+      { createCourse, loadCourses, loadAuthors, deleteCourse },
+      dispatch
+    ),
   };
 };
 
@@ -29,7 +36,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type Props = ConnectedProps<typeof connector> & OwnProps & RouteComponentProps;
 
 const CoursesPage: FunctionComponent<Props> = (props) => {
-  const { loadCourses, loadAuthors } = props;
+  const { loadCourses, loadAuthors, deleteCourse } = props;
 
   React.useEffect(() => {
     loadCourses();
@@ -44,7 +51,10 @@ const CoursesPage: FunctionComponent<Props> = (props) => {
           Add Course
         </button>
       </h2>
-      <CourseList courses={props.courses} />
+      <CourseList
+        courses={props.courses}
+        onDelete={(course) => deleteCourse(course.id)}
+      />
     </div>
   );
 };

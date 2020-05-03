@@ -64,6 +64,14 @@ export default {
       500
     );
   },
+  deleteCourse: async (id: string): Promise<void> => {
+    return delayed(() => {
+      const index = courses.findIndex((course) => course.id === id);
+      if (index >= 0) {
+        courses.splice(index, 1);
+      }
+    }, 500);
+  },
   getAuthors: async (): Promise<Author[]> => {
     return delayed(
       authors.map((author) => author),

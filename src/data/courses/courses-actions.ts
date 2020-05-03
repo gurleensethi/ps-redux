@@ -4,6 +4,7 @@ import {
   LoadCoursesSuccessAction,
   LoadCourseAction,
   UpdateCourseAction,
+  DeleteCourseAction,
 } from "./courses-types";
 import {
   Course,
@@ -91,6 +92,21 @@ export const updateCourse = (
       if (updateCourse) {
         dispatch(updateCourseSuccess(id, updateCourse));
       }
+    });
+  };
+};
+
+export const deleteCourseSuccess = (id: string): DeleteCourseAction => {
+  return {
+    id,
+    type: CourseActionType.DeleteCourse,
+  };
+};
+
+export const deleteCourse = (id: string): AppThunk<Promise<void>> => {
+  return (dispatch: Dispatch) => {
+    return api.deleteCourse(id).then(() => {
+      dispatch(deleteCourseSuccess(id));
     });
   };
 };
