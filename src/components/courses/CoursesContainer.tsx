@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { RootState, CreateCourseData } from "src/types";
+import { RootState } from "src/types";
 import { createCourse, loadCourses } from "src/data/courses/courses-actions";
 import { bindActionCreators, Dispatch } from "redux";
 import CourseList from "./CourseList";

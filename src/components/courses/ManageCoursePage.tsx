@@ -9,8 +9,9 @@ import {
   createCourse,
   updateCourse,
 } from "src/data/courses/courses-actions";
+import Spinner from "../common/Spinner";
 
-interface OwnProps {}
+type OwnProps = RouteComponentProps<{ courseId: string }>;
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -28,9 +29,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type Props = ConnectedProps<typeof connector> &
-  OwnProps &
-  RouteComponentProps<{ courseId: string }>;
+type Props = ConnectedProps<typeof connector> & OwnProps;
 
 const ManageCoursePage: FunctionComponent<Props> = (props) => {
   const {
@@ -82,7 +81,8 @@ const ManageCoursePage: FunctionComponent<Props> = (props) => {
     if (!fields.title) _errors.title = "Title is required";
     if (!fields.authorId) _errors.authorId = "Author id is required";
     setErrors(_errors);
-    if (Object.keys(_errors).length === 0) {
+    const hasNoErrors = Object.keys(_errors).length === 0;
+    if (hasNoErrors) {
       setSaving(true);
       if (!courseId) {
         createCourse(fields).then(() => props.history.push("/courses"));
@@ -101,7 +101,7 @@ const ManageCoursePage: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-      {isLoadingCourse && <p>Loading...</p>}
+      {isLoadingCourse && <Spinner />}
       {!isLoadingCourse && (
         <CourseForm
           fields={fields}

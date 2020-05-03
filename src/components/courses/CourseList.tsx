@@ -10,8 +10,8 @@ const CourseList: FunctionComponent<Props> = (props) => {
   return (
     <div>
       {props.courses.map((course) => (
-        <Link to={`/course/${course.id}`}>
-          <div key={course.id}>{course.title}</div>
+        <Link to={`/course/${course.id}`} key={course.id}>
+          <div>{course.title}</div>
         </Link>
       ))}
     </div>
