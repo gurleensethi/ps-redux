@@ -10,6 +10,9 @@ import { bindActionCreators, Dispatch } from "redux";
 import CourseList from "./CourseList";
 import { loadAuthors } from "src/data/author/author-actions";
 import { RouteComponentProps } from "react-router-dom";
+import { loadingSelector } from "src/data/loading/loadig-selector";
+import { CourseActionType } from "src/data/courses/courses-types";
+import Spinner from "../common/Spinner";
 
 interface OwnProps {}
 
@@ -20,6 +23,9 @@ const mapStateToProps = (state: RootState) => ({
       author: state.authors.find((author) => author.id === course.authorId),
     };
   }),
+  isLoadingCourses: loadingSelector(state, [
+    CourseActionType.LoadCoursesRequest,
+  ]),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -36,7 +42,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type Props = ConnectedProps<typeof connector> & OwnProps & RouteComponentProps;
 
 const CoursesPage: FunctionComponent<Props> = (props) => {
-  const { loadCourses, loadAuthors, deleteCourse } = props;
+  const { loadCourses, loadAuthors, deleteCourse, isLoadingCourses } = props;
 
   React.useEffect(() => {
     loadCourses();
@@ -51,6 +57,7 @@ const CoursesPage: FunctionComponent<Props> = (props) => {
           Add Course
         </button>
       </h2>
+      {isLoadingCourses && <Spinner />}
       <CourseList
         courses={props.courses}
         onDelete={(course) => deleteCourse(course.id)}

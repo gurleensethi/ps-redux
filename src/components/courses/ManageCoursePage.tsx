@@ -10,6 +10,8 @@ import {
   updateCourse,
 } from "src/data/courses/courses-actions";
 import Spinner from "../common/Spinner";
+import { loadingSelector } from "src/data/loading/loadig-selector";
+import { CourseActionType } from "src/data/courses/courses-types";
 
 type OwnProps = RouteComponentProps<{ courseId: string }>;
 
@@ -17,6 +19,13 @@ const mapStateToProps = (state: RootState) => {
   return {
     course: state.courses.course,
     authors: state.authors,
+    isLoadingCourse: loadingSelector(state, [
+      CourseActionType.LoadCourseRequest,
+    ]),
+    isSavingCourse: loadingSelector(state, [
+      CourseActionType.CreateCourseRequest,
+      CourseActionType.UpdateCourseRequest,
+    ]),
   };
 };
 
@@ -41,11 +50,11 @@ const ManageCoursePage: FunctionComponent<Props> = (props) => {
       params: { courseId },
     },
     course,
+    isLoadingCourse,
   } = props;
 
   // Component State
   const [isSaving, setSaving] = React.useState(false);
-  const [isLoadingCourse, setLoadingCourse] = React.useState(false);
   const [fields, setFields] = React.useState<CourseFormFields>({
     authorId: "",
     title: "",
@@ -54,10 +63,7 @@ const ManageCoursePage: FunctionComponent<Props> = (props) => {
 
   React.useEffect(() => {
     if (courseId) {
-      setLoadingCourse(true);
-      loadCourse(courseId).then((result) => {
-        setLoadingCourse(false);
-      });
+      loadCourse(courseId);
     }
     loadAuthors();
   }, [loadAuthors, loadCourse, courseId]);

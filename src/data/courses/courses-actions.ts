@@ -1,10 +1,10 @@
 import {
-  CreateCourseAction,
   CourseActionType,
-  LoadCoursesSuccessAction,
-  LoadCourseAction,
-  UpdateCourseAction,
-  DeleteCourseAction,
+  CreateCourseRequestFinishedAction,
+  LoadCourseRequestFinishedAction,
+  LoadCoursesRequestFinishedAction,
+  UpdateCourseRequestFinishedAction,
+  DeleteCourseRequestFinishedAction,
 } from "./courses-types";
 import {
   Course,
@@ -15,10 +15,12 @@ import {
 import { Dispatch } from "redux";
 import api from "src/api";
 
-export const createCourseSuccess = (course: Course): CreateCourseAction => {
+export const createCourseRequestFinished = (
+  course: Course
+): CreateCourseRequestFinishedAction => {
   return {
     course,
-    type: CourseActionType.CreateCourse,
+    type: CourseActionType.CreateCourseRequestFinished,
   };
 };
 
@@ -26,27 +28,29 @@ export const createCourse = (
   createCourseData: CreateCourseData
 ): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
+    dispatch({ type: CourseActionType.CreateCourseRequest });
     return api.createCourse(createCourseData).then((course) => {
-      dispatch(createCourseSuccess(course));
+      dispatch(createCourseRequestFinished(course));
     });
   };
 };
 
-export const loadCoursesSuccess = (
+export const loadCoursesRequestFinished = (
   courses: Course[]
-): LoadCoursesSuccessAction => {
+): LoadCoursesRequestFinishedAction => {
   return {
     courses,
-    type: CourseActionType.LoadCoursesSuccess,
+    type: CourseActionType.LoadCoursesRequestFinished,
   };
 };
 
 export const loadCourses = (): AppThunk => {
   return (dispatch: Dispatch) => {
+    dispatch({ type: CourseActionType.LoadCoursesRequest });
     return api
       .getCourses()
       .then((courses) => {
-        dispatch(loadCoursesSuccess(courses));
+        dispatch(loadCoursesRequestFinished(courses));
       })
       .catch((error) => {
         throw error;
@@ -54,32 +58,32 @@ export const loadCourses = (): AppThunk => {
   };
 };
 
-export const loadCourseSuccess = (
+export const loadCourseRequestFinished = (
   course: Course | undefined
-): LoadCourseAction => {
+): LoadCourseRequestFinishedAction => {
   return {
-    type: CourseActionType.LoadCourse,
+    type: CourseActionType.LoadCourseRequestFinished,
     course,
   };
 };
 
 export const loadCourse = (id: string): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
-    dispatch(loadCourseSuccess(undefined));
+    dispatch({ type: CourseActionType.LoadCourseRequest });
     return api.getCourse(id).then((course) => {
-      dispatch(loadCourseSuccess(course));
+      dispatch(loadCourseRequestFinished(course));
     });
   };
 };
 
-export const updateCourseSuccess = (
+export const updateCousreRequestFinished = (
   id: string,
   course: Course
-): UpdateCourseAction => {
+): UpdateCourseRequestFinishedAction => {
   return {
     id,
     course,
-    type: CourseActionType.UpdateCourse,
+    type: CourseActionType.UpdateCourseRequestFinished,
   };
 };
 
@@ -88,25 +92,29 @@ export const updateCourse = (
   updateCourseData: UpdateCourseData
 ): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
+    dispatch({ type: CourseActionType.UpdateCourseRequest });
     return api.updateCourse(id, updateCourseData).then((updateCourse) => {
       if (updateCourse) {
-        dispatch(updateCourseSuccess(id, updateCourse));
+        dispatch(updateCousreRequestFinished(id, updateCourse));
       }
     });
   };
 };
 
-export const deleteCourseSuccess = (id: string): DeleteCourseAction => {
+export const deleteCourseRequestFinished = (
+  id: string
+): DeleteCourseRequestFinishedAction => {
   return {
     id,
-    type: CourseActionType.DeleteCourse,
+    type: CourseActionType.DeleteCourseRequestFinished,
   };
 };
 
 export const deleteCourse = (id: string): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
+    dispatch({ type: CourseActionType.DeleteCourseRequest });
     return api.deleteCourse(id).then(() => {
-      dispatch(deleteCourseSuccess(id));
+      dispatch(deleteCourseRequestFinished(id));
     });
   };
 };
