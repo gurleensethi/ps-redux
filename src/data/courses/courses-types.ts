@@ -1,6 +1,6 @@
 import { Course, Author } from "../../types";
 
-export enum CourseActionType {
+export enum CourseActions {
   CreateCourseRequest = "CREATE_COURSE_REQUEST",
   CreateCourseRequestFinished = "CREATE_COURSE_REQUEST_FINISHED",
   DeleteCourseRequest = "DELETE_COURSE_REQUEST",
@@ -14,53 +14,53 @@ export enum CourseActionType {
 }
 
 export interface CreateCourseRequestAction {
-  type: CourseActionType.CreateCourseRequest;
+  type: CourseActions.CreateCourseRequest;
   course: Course;
 }
 
 export interface CreateCourseRequestFinishedAction {
-  type: CourseActionType.CreateCourseRequestFinished;
+  type: CourseActions.CreateCourseRequestFinished;
   course: Course;
 }
 
 export interface UpdateCourseRequestAction {
-  type: CourseActionType.UpdateCourseRequest;
+  type: CourseActions.UpdateCourseRequest;
   course: Course;
   id: string;
 }
 
 export interface UpdateCourseRequestFinishedAction {
-  type: CourseActionType.UpdateCourseRequestFinished;
+  type: CourseActions.UpdateCourseRequestFinished;
   course: Course;
   id: string;
 }
 
 export interface DeleteCourseRequestAction {
-  type: CourseActionType.DeleteCourseRequest;
+  type: CourseActions.DeleteCourseRequest;
   id: string;
 }
 
 export interface DeleteCourseRequestFinishedAction {
-  type: CourseActionType.DeleteCourseRequestFinished;
+  type: CourseActions.DeleteCourseRequestFinished;
   id: string;
 }
 
 export interface LoadCoursesRequestAction {
-  type: CourseActionType.LoadCoursesRequest;
+  type: CourseActions.LoadCoursesRequest;
 }
 
 export interface LoadCoursesRequestFinishedAction {
-  type: CourseActionType.LoadCoursesRequestFinished;
+  type: CourseActions.LoadCoursesRequestFinished;
   courses: Course[];
 }
 
 export interface LoadCourseRequestAction {
-  type: CourseActionType.LoadCourseRequest;
+  type: CourseActions.LoadCourseRequest;
   id: string;
 }
 
 export interface LoadCourseRequestFinishedAction {
-  type: CourseActionType.LoadCourseRequestFinished;
+  type: CourseActions.LoadCourseRequestFinished;
   course: Course | undefined;
 }
 

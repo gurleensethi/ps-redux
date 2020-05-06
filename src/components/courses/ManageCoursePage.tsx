@@ -11,7 +11,7 @@ import {
 } from "src/data/courses/courses-actions";
 import Spinner from "../common/Spinner";
 import { loadingSelector } from "src/data/loading/loadig-selector";
-import { CourseActionType } from "src/data/courses/courses-types";
+import { CourseActions } from "src/data/courses/courses-types";
 
 type OwnProps = RouteComponentProps<{ courseId: string }>;
 
@@ -19,12 +19,10 @@ const mapStateToProps = (state: RootState) => {
   return {
     course: state.courses.course,
     authors: state.authors,
-    isLoadingCourse: loadingSelector(state, [
-      CourseActionType.LoadCourseRequest,
-    ]),
+    isLoadingCourse: loadingSelector(state, [CourseActions.LoadCourseRequest]),
     isSavingCourse: loadingSelector(state, [
-      CourseActionType.CreateCourseRequest,
-      CourseActionType.UpdateCourseRequest,
+      CourseActions.CreateCourseRequest,
+      CourseActions.UpdateCourseRequest,
     ]),
   };
 };

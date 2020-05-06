@@ -1,4 +1,4 @@
-import { CoursesAction, CoursesState, CourseActionType } from "./courses-types";
+import { CoursesAction, CoursesState, CourseActions } from "./courses-types";
 
 const initialState: CoursesState = { courses: [], course: undefined };
 
@@ -7,13 +7,13 @@ export const coursesReducer = (
   action: CoursesAction
 ): CoursesState => {
   switch (action.type) {
-    case CourseActionType.LoadCoursesRequestFinished:
+    case CourseActions.LoadCoursesRequestFinished:
       return { ...state, courses: action.courses };
-    case CourseActionType.CreateCourseRequestFinished:
+    case CourseActions.CreateCourseRequestFinished:
       return { ...state, courses: [...state.courses, action.course] };
-    case CourseActionType.LoadCourseRequestFinished:
+    case CourseActions.LoadCourseRequestFinished:
       return { ...state, course: action.course };
-    case CourseActionType.UpdateCourseRequestFinished:
+    case CourseActions.UpdateCourseRequestFinished:
       return {
         ...state,
         courses: state.courses.map((course) => {
@@ -23,7 +23,7 @@ export const coursesReducer = (
           return course;
         }),
       };
-    case CourseActionType.DeleteCourseRequestFinished:
+    case CourseActions.DeleteCourseRequestFinished:
       return {
         ...state,
         courses: state.courses.filter((course) => course.id !== action.id),

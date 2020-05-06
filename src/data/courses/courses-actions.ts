@@ -1,5 +1,5 @@
 import {
-  CourseActionType,
+  CourseActions,
   CreateCourseRequestFinishedAction,
   LoadCourseRequestFinishedAction,
   LoadCoursesRequestFinishedAction,
@@ -20,7 +20,7 @@ export const createCourseRequestFinished = (
 ): CreateCourseRequestFinishedAction => {
   return {
     course,
-    type: CourseActionType.CreateCourseRequestFinished,
+    type: CourseActions.CreateCourseRequestFinished,
   };
 };
 
@@ -28,7 +28,7 @@ export const createCourse = (
   createCourseData: CreateCourseData
 ): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
-    dispatch({ type: CourseActionType.CreateCourseRequest });
+    dispatch({ type: CourseActions.CreateCourseRequest });
     return api.createCourse(createCourseData).then((course) => {
       dispatch(createCourseRequestFinished(course));
     });
@@ -40,13 +40,13 @@ export const loadCoursesRequestFinished = (
 ): LoadCoursesRequestFinishedAction => {
   return {
     courses,
-    type: CourseActionType.LoadCoursesRequestFinished,
+    type: CourseActions.LoadCoursesRequestFinished,
   };
 };
 
 export const loadCourses = (): AppThunk => {
   return (dispatch: Dispatch) => {
-    dispatch({ type: CourseActionType.LoadCoursesRequest });
+    dispatch({ type: CourseActions.LoadCoursesRequest });
     return api
       .getCourses()
       .then((courses) => {
@@ -62,14 +62,14 @@ export const loadCourseRequestFinished = (
   course: Course | undefined
 ): LoadCourseRequestFinishedAction => {
   return {
-    type: CourseActionType.LoadCourseRequestFinished,
+    type: CourseActions.LoadCourseRequestFinished,
     course,
   };
 };
 
 export const loadCourse = (id: string): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
-    dispatch({ type: CourseActionType.LoadCourseRequest });
+    dispatch({ type: CourseActions.LoadCourseRequest });
     return api.getCourse(id).then((course) => {
       dispatch(loadCourseRequestFinished(course));
     });
@@ -83,7 +83,7 @@ export const updateCousreRequestFinished = (
   return {
     id,
     course,
-    type: CourseActionType.UpdateCourseRequestFinished,
+    type: CourseActions.UpdateCourseRequestFinished,
   };
 };
 
@@ -92,7 +92,7 @@ export const updateCourse = (
   updateCourseData: UpdateCourseData
 ): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
-    dispatch({ type: CourseActionType.UpdateCourseRequest });
+    dispatch({ type: CourseActions.UpdateCourseRequest });
     return api.updateCourse(id, updateCourseData).then((updateCourse) => {
       if (updateCourse) {
         dispatch(updateCousreRequestFinished(id, updateCourse));
@@ -106,13 +106,13 @@ export const deleteCourseRequestFinished = (
 ): DeleteCourseRequestFinishedAction => {
   return {
     id,
-    type: CourseActionType.DeleteCourseRequestFinished,
+    type: CourseActions.DeleteCourseRequestFinished,
   };
 };
 
 export const deleteCourse = (id: string): AppThunk<Promise<void>> => {
   return (dispatch: Dispatch) => {
-    dispatch({ type: CourseActionType.DeleteCourseRequest });
+    dispatch({ type: CourseActions.DeleteCourseRequest });
     return api.deleteCourse(id).then(() => {
       dispatch(deleteCourseRequestFinished(id));
     });

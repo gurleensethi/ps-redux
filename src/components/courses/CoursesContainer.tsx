@@ -11,7 +11,7 @@ import CourseList from "./CourseList";
 import { loadAuthors } from "src/data/author/author-actions";
 import { RouteComponentProps } from "react-router-dom";
 import { loadingSelector } from "src/data/loading/loadig-selector";
-import { CourseActionType } from "src/data/courses/courses-types";
+import { CourseActions } from "src/data/courses/courses-types";
 import Spinner from "../common/Spinner";
 
 interface OwnProps {}
@@ -23,9 +23,7 @@ const mapStateToProps = (state: RootState) => ({
       author: state.authors.find((author) => author.id === course.authorId),
     };
   }),
-  isLoadingCourses: loadingSelector(state, [
-    CourseActionType.LoadCoursesRequest,
-  ]),
+  isLoadingCourses: loadingSelector(state, [CourseActions.LoadCoursesRequest]),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
