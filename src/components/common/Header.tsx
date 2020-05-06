@@ -1,14 +1,27 @@
 import React, { FunctionComponent } from "react";
-import { NavLink } from "react-router-dom";
+import {
+  NavLink,
+  RouteComponentProps,
+  withRouter,
+  Link,
+} from "react-router-dom";
+import { AppBar, Tabs, Tab } from "@material-ui/core";
 
-const Header: FunctionComponent = (props) => {
+const Header: FunctionComponent<RouteComponentProps> = (props) => {
   return (
-    <nav>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/about">About</NavLink>
-      <NavLink to="/courses">Courses</NavLink>
-    </nav>
+    <AppBar position="static">
+      <Tabs
+        variant="fullWidth"
+        value={props.location.pathname}
+        aria-label="simple tabs example"
+        onChange={(event, value) => props.history.push(value)}
+      >
+        <Tab label="Home" value="/" />
+        <Tab label="About" value="/about" />
+        <Tab label="Courses" value="/courses" />
+      </Tabs>
+    </AppBar>
   );
 };
 
-export default Header;
+export default withRouter(Header);
