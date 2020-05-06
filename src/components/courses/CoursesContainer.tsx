@@ -12,7 +12,7 @@ import { loadAuthors } from "src/data/author/author-actions";
 import { RouteComponentProps } from "react-router-dom";
 import { loadingSelector } from "src/data/loading/loadig-selector";
 import { CourseActions } from "src/data/courses/courses-types";
-import Spinner from "../common/Spinner";
+import { Box, Button, Divider, CircularProgress } from "@material-ui/core";
 
 interface OwnProps {}
 
@@ -49,17 +49,28 @@ const CoursesPage: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-      <h2>
-        Courses{" "}
-        <button onClick={() => props.history.push("/course")}>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <h1>Courses</h1>
+        <Button
+          onClick={() => props.history.push("/course")}
+          color="primary"
+          variant="contained"
+        >
           Add Course
-        </button>
-      </h2>
-      {isLoadingCourses && <Spinner />}
-      <CourseList
-        courses={props.courses}
-        onDelete={(course) => deleteCourse(course.id)}
-      />
+        </Button>
+      </Box>
+      <Divider />
+      {isLoadingCourses && (
+        <Box marginTop="24px" display="flex" justifyContent="center">
+          <CircularProgress />
+        </Box>
+      )}
+      <Box marginTop="24px">
+        <CourseList
+          courses={props.courses}
+          onDelete={(course) => deleteCourse(course.id)}
+        />
+      </Box>
     </div>
   );
 };

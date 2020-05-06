@@ -1,10 +1,5 @@
 import React, { FunctionComponent } from "react";
-import {
-  NavLink,
-  RouteComponentProps,
-  withRouter,
-  Link,
-} from "react-router-dom";
+import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 
 const Header: FunctionComponent<RouteComponentProps> = (props) => {

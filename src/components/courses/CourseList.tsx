@@ -1,23 +1,54 @@
 import React, { FunctionComponent } from "react";
 import { Course } from "src/types";
-import { Link } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
+import {
+  ListItem,
+  ListItemText,
+  List,
+  Divider,
+  ListItemIcon,
+  Box,
+  IconButton,
+} from "@material-ui/core";
+import { Label, Delete } from "@material-ui/icons";
 
 interface Props {
   courses: Course[];
   onDelete: (course: Course) => void;
 }
 
-const CourseList: FunctionComponent<Props> = ({ courses, onDelete }) => {
+const CourseList: FunctionComponent<Props & RouteComponentProps> = ({
+  courses,
+  onDelete,
+  history,
+}) => {
   return (
-    <div>
-      {courses.map((course) => (
-        <div key={course.id}>
-          <Link to={`/course/${course.id}`}>{course.title} </Link>
-          <button onClick={() => onDelete(course)}>Delete</button>
-        </div>
+    <List>
+      {courses.map((course, index) => (
+        <ListItem
+          key={course.id}
+          button
+          onClick={() => history.push(`/course/${course.id}`)}
+        >
+          <ListItemIcon>
+            <Label htmlColor="darkblue" />
+          </ListItemIcon>
+          <ListItemText>
+            <Box fontSize="24px">{course.title}</Box>
+          </ListItemText>
+          <IconButton
+            onClick={(event) => {
+              event.stopPropagation();
+              onDelete(course);
+            }}
+          >
+            <Delete htmlColor="red" />
+          </IconButton>
+          {index !== courses.length - 1 && <Divider />}
+        </ListItem>
       ))}
-    </div>
+    </List>
   );
 };
 
-export default CourseList;
+export default withRouter(CourseList);
