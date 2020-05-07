@@ -12,6 +12,7 @@ import {
 import { loadingSelector } from "src/data/loading/loadig-selector";
 import { CourseActions } from "src/data/courses/courses-types";
 import { Container, CircularProgress, Box } from "@material-ui/core";
+import { AuthorActionType } from "src/data/author/author-type";
 
 type OwnProps = RouteComponentProps<{ courseId: string }>;
 
@@ -19,7 +20,10 @@ const mapStateToProps = (state: RootState) => {
   return {
     course: state.courses.course,
     authors: state.authors,
-    isLoadingCourse: loadingSelector(state, [CourseActions.LoadCourseRequest]),
+    isLoadingCourse: loadingSelector(state, [
+      CourseActions.LoadCourseRequest,
+      AuthorActionType.LoadAuthorsRequest,
+    ]),
     isSavingCourse: loadingSelector(state, [
       CourseActions.CreateCourseRequest,
       CourseActions.UpdateCourseRequest,

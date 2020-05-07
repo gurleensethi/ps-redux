@@ -8,10 +8,8 @@ export const authorReducer = (
   action: AuthorAction
 ): AuthorState => {
   switch (action.type) {
-    case AuthorActionType.CreateAuthor:
-      return [...state, action.author];
-    case AuthorActionType.LoadAuthorsSuccess:
-      return action.authors;
+    case AuthorActionType.LoadAuthorsRequestFinished:
+      return [...state, ...action.authors];
     default:
       return state;
   }

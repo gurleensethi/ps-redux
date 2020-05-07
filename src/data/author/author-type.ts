@@ -1,18 +1,17 @@
 import { Author } from "src/types";
 
 export enum AuthorActionType {
-  LoadAuthorsSuccess = "LOAD_AUTHORS_SUCCESS",
-  CreateAuthor = "CREATE_AUTHOR",
+  LoadAuthorsRequest = "LOAD_AUTHORS_REQUEST",
+  LoadAuthorsRequestFinished = "LOAD_AUTHORS_REQUEST_FINISHED",
 }
 
-export interface CreateAuthorAction {
-  type: AuthorActionType.CreateAuthor;
-  author: Author;
+export interface LoadAuthorsRequest {
+  type: AuthorActionType.LoadAuthorsRequest;
 }
 
-export interface LoadAuthorsSuccess {
-  type: AuthorActionType.LoadAuthorsSuccess;
+export interface LoadAuthorsRequestFinished {
+  type: AuthorActionType.LoadAuthorsRequestFinished;
   authors: Author[];
 }
 
-export type AuthorAction = LoadAuthorsSuccess | CreateAuthorAction;
+export type AuthorAction = LoadAuthorsRequest | LoadAuthorsRequestFinished;
