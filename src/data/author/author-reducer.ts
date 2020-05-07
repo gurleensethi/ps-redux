@@ -9,7 +9,7 @@ export const authorReducer = (
 ): AuthorState => {
   switch (action.type) {
     case AuthorActionType.LoadAuthorsRequestFinished:
-      return [...state, ...action.authors];
+      return action.authors;
     default:
       return state;
   }
