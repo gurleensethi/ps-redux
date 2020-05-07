@@ -1,9 +1,24 @@
 import React, { FunctionComponent } from "react";
 import { CourseFormFields, CourseFormErrors, Author } from "src/types";
+import {
+  TextField,
+  Select,
+  MenuItem,
+  Box,
+  FormControl,
+  InputLabel,
+  Button,
+  FormHelperText,
+} from "@material-ui/core";
 
 interface OwnProps {
   onChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: React.ChangeEvent<
+      | HTMLInputElement
+      | HTMLSelectElement
+      | HTMLTextAreaElement
+      | { name?: string | undefined; value: any }
+    >
   ) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   fields: CourseFormFields;
@@ -23,26 +38,35 @@ const CourseForm: FunctionComponent<OwnProps> = ({
   const { title, authorId } = fields;
 
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <div>Title</div>
-        <input onChange={onChange} name="title" value={title} />
-        <div>{errors.title}</div>
-      </div>
-      <div>
-        <div>Author</div>
-        <select value={authorId} name="authorId" onChange={onChange}>
-          <option value="">Select an author</option>
+    <form onSubmit={onSubmit} style={{ width: "100%" }}>
+      <FormControl fullWidth error={!!errors.title}>
+        <TextField
+          label="Title"
+          onChange={onChange}
+          value={title}
+          fullWidth
+          name="title"
+        />
+        <FormHelperText>{errors.title}</FormHelperText>
+      </FormControl>
+      <FormControl fullWidth margin="normal" error={!!errors.authorId}>
+        <InputLabel>Author</InputLabel>
+        <Select value={authorId} name="authorId" onChange={onChange} fullWidth>
+          <MenuItem value="">Select an author</MenuItem>
           {authors.map((author) => (
-            <option key={author.id} value={author.id}>
+            <MenuItem key={author.id} value={author.id}>
               {author.name}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-        <div>{errors.authorId}</div>
-      </div>
+        </Select>
+        <FormHelperText>{errors.authorId}</FormHelperText>
+      </FormControl>
       {isSaving && <div>Saving...</div>}
-      <button>Save</button>
+      <Box marginTop="24px">
+        <Button variant="contained" color="primary" type="submit">
+          Save
+        </Button>
+      </Box>
     </form>
   );
 };

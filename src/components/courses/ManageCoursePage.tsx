@@ -9,9 +9,9 @@ import {
   createCourse,
   updateCourse,
 } from "src/data/courses/courses-actions";
-import Spinner from "../common/Spinner";
 import { loadingSelector } from "src/data/loading/loadig-selector";
 import { CourseActions } from "src/data/courses/courses-types";
+import { Container, CircularProgress, Box } from "@material-ui/core";
 
 type OwnProps = RouteComponentProps<{ courseId: string }>;
 
@@ -72,9 +72,7 @@ const ManageCoursePage: FunctionComponent<Props> = (props) => {
     }
   }, [course]);
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (event: React.ChangeEvent<any>) => {
     const { name, value } = event.target;
     setFields({ ...fields, [name]: value });
   };
@@ -104,19 +102,28 @@ const ManageCoursePage: FunctionComponent<Props> = (props) => {
   }
 
   return (
-    <div>
-      {isLoadingCourse && <Spinner />}
-      {!isLoadingCourse && (
-        <CourseForm
-          fields={fields}
-          errors={errors}
-          onChange={handleChange}
-          onSubmit={handleSubmit}
-          authors={props.authors}
-          isSaving={isSaving}
-        />
-      )}
-    </div>
+    <Container>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginTop="24px"
+      >
+        {isLoadingCourse && (
+          <CircularProgress style={{ justifySelf: "center" }} />
+        )}
+        {!isLoadingCourse && (
+          <CourseForm
+            fields={fields}
+            errors={errors}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            authors={props.authors}
+            isSaving={isSaving}
+          />
+        )}
+      </Box>
+    </Container>
   );
 };
 

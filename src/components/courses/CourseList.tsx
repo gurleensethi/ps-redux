@@ -34,7 +34,7 @@ const CourseList: FunctionComponent<Props & RouteComponentProps> = ({
             <Label htmlColor="darkblue" />
           </ListItemIcon>
           <ListItemText>
-            <Box fontSize="24px">{course.title}</Box>
+            <Box fontSize="28px">{course.title}</Box>
           </ListItemText>
           <IconButton
             onClick={(event) => {
@@ -42,7 +42,7 @@ const CourseList: FunctionComponent<Props & RouteComponentProps> = ({
               onDelete(course);
             }}
           >
-            <Delete htmlColor="red" />
+            <Delete htmlColor="red" fontSize="large" />
           </IconButton>
           {index !== courses.length - 1 && <Divider />}
         </ListItem>
