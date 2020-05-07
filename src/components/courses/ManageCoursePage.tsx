@@ -103,24 +103,22 @@ const ManageCoursePage: FunctionComponent<Props> = (props) => {
 
   return (
     <Container>
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        marginTop="24px"
-      >
+      <Box display="flex" flexDirection="column" marginTop="24px">
         {isLoadingCourse && (
-          <CircularProgress style={{ justifySelf: "center" }} />
+          <CircularProgress style={{ alignSelf: "center" }} />
         )}
         {!isLoadingCourse && (
-          <CourseForm
-            fields={fields}
-            errors={errors}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            authors={props.authors}
-            isSaving={isSaving}
-          />
+          <>
+            <h1>Add new course</h1>
+            <CourseForm
+              fields={fields}
+              errors={errors}
+              onChange={handleChange}
+              onSubmit={handleSubmit}
+              authors={props.authors}
+              isSaving={isSaving}
+            />
+          </>
         )}
       </Box>
     </Container>

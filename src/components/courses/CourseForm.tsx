@@ -9,6 +9,7 @@ import {
   InputLabel,
   Button,
   FormHelperText,
+  CircularProgress,
 } from "@material-ui/core";
 
 interface OwnProps {
@@ -61,9 +62,21 @@ const CourseForm: FunctionComponent<OwnProps> = ({
         </Select>
         <FormHelperText>{errors.authorId}</FormHelperText>
       </FormControl>
-      {isSaving && <div>Saving...</div>}
+      {isSaving && (
+        <div>
+          <Box component="span" marginRight="8px">
+            <CircularProgress size={12} />
+          </Box>
+          Saving...
+        </div>
+      )}
       <Box marginTop="24px">
-        <Button variant="contained" color="primary" type="submit">
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          disabled={isSaving}
+        >
           Save
         </Button>
       </Box>
