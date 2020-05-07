@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Course } from "src/types";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter, Link } from "react-router-dom";
 import {
   ListItem,
   ListItemText,
@@ -28,7 +28,8 @@ const CourseList: FunctionComponent<Props & RouteComponentProps> = ({
         <ListItem
           key={course.id}
           button
-          onClick={() => history.push(`/course/${course.id}`)}
+          component={Link}
+          to={`/course/${course.id}`}
         >
           <ListItemIcon>
             <Label htmlColor="darkblue" />
