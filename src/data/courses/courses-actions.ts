@@ -11,6 +11,7 @@ import {
   AppThunk,
   CreateCourseData,
   UpdateCourseData,
+  RootState,
 } from "src/types";
 import { Dispatch } from "redux";
 import api from "src/api";
@@ -41,20 +42,31 @@ export const loadCoursesRequestFinished = (
   return {
     courses,
     type: CourseActions.LoadCoursesRequestFinished,
+    time: new Date(),
   };
 };
 
-export const loadCourses = (): AppThunk => {
-  return (dispatch: Dispatch) => {
-    dispatch({ type: CourseActions.LoadCoursesRequest });
-    return api
-      .getCourses()
-      .then((courses) => {
-        dispatch(loadCoursesRequestFinished(courses));
-      })
-      .catch((error) => {
-        throw error;
-      });
+export const loadCourses = (forceFetch: boolean = false): AppThunk => {
+  return (dispatch: Dispatch, getState: () => RootState) => {
+    const {
+      courses: { lastFetchCourses },
+    } = getState();
+
+    if (
+      forceFetch ||
+      !lastFetchCourses ||
+      Date.now() - lastFetchCourses.getTime() > 2 * 60 * 1000
+    ) {
+      dispatch({ type: CourseActions.LoadCoursesRequest });
+      return api
+        .getCourses()
+        .then((courses) => {
+          dispatch(loadCoursesRequestFinished(courses));
+        })
+        .catch((error) => {
+          throw error;
+        });
+    }
   };
 };
 

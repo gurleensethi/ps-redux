@@ -52,6 +52,7 @@ export interface LoadCoursesRequestAction {
 export interface LoadCoursesRequestFinishedAction {
   type: CourseActions.LoadCoursesRequestFinished;
   courses: Course[];
+  time: Date;
 }
 
 export interface LoadCourseRequestAction {
@@ -76,6 +77,10 @@ export type CoursesAction =
   | LoadCoursesRequestAction
   | LoadCoursesRequestFinishedAction;
 
-export type CoursesState = { courses: Course[]; course: Course | undefined };
+export type CoursesState = {
+  courses: Course[];
+  lastFetchCourses: Date | undefined;
+  course: Course | undefined;
+};
 
 export type AuthorState = Author[];

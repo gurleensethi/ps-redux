@@ -1,6 +1,10 @@
 import { CoursesAction, CoursesState, CourseActions } from "./courses-types";
 
-const initialState: CoursesState = { courses: [], course: undefined };
+const initialState: CoursesState = {
+  courses: [],
+  course: undefined,
+  lastFetchCourses: undefined,
+};
 
 export const coursesReducer = (
   state = initialState,
@@ -8,7 +12,11 @@ export const coursesReducer = (
 ): CoursesState => {
   switch (action.type) {
     case CourseActions.LoadCoursesRequestFinished:
-      return { ...state, courses: action.courses };
+      return {
+        ...state,
+        courses: action.courses,
+        lastFetchCourses: action.time,
+      };
     case CourseActions.CreateCourseRequestFinished:
       return { ...state, courses: [...state.courses, action.course] };
     case CourseActions.LoadCourseRequestFinished:
